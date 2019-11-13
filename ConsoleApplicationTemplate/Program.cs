@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 
-namespace ConsoleApplicationTemplate
+namespace ConsoleApplicationBase
 {
     internal static class Program
     {
@@ -22,7 +24,8 @@ namespace ConsoleApplicationTemplate
 
                 try
                 {
-                    string result = Execute(consoleInput);
+                    var cmd = new ConsoleCommand(consoleInput);
+                    string result = Execute(cmd);
 
                     WriteToConsole(result);
                 }
@@ -39,9 +42,18 @@ namespace ConsoleApplicationTemplate
                 Console.WriteLine(message);
         }
 
-        private static string Execute(string command)
+        private static string Execute(ConsoleCommand command)
         {
-            return string.Format($"Executed the {command} Command");
+            var sb = new StringBuilder();
+
+            sb.AppendFormat($"Executed the {command.LibraryClassName}.{command.Name} Command").AppendLine();
+
+            for (int i = 0; i < command.Arguments.Count(); i++)
+            {
+                sb.Append(ConsoleFormatting.Indent(4)).AppendFormat($"Argument{i} value: {command.Arguments.ElementAt(i)}").AppendLine();
+            }
+
+            return sb.ToString();
         }
 
         private const string _readPrompt = "console> ";
