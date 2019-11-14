@@ -42,7 +42,7 @@ namespace ConsoleApplicationBase
             }
         }
 
-        public object Name { get; }
+        public string Name { get; }
         public string LibraryClassName { get; }
 
         private readonly List<string> _arguments;
